@@ -1,10 +1,11 @@
-import React from 'react';
-import Map from './Views/Map';
+import { createStackNavigator } from 'react-navigation';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <Map />
-    );
-  }
-}
+import MapView from './Views/Map';
+import UserView from './Views/User';
+
+const App = createStackNavigator({
+	Map: { screen: MapView },
+	User: { screen: UserView },
+});
+
+export default App;
