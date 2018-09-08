@@ -72,6 +72,21 @@ const getLocalUser = async () => {
 	}
 };
 
+const addMarker = async (marker) => {
+	const response = await getLocalUser();
+	// If there was an error, return it
+	if (response.type === 'error') {
+		return response;
+	}
+
+	const copyMarker = Object.assign({}, marker);
+	delete copyMarker.id;
+	response.data.history[marker.id] = copyMarker;
+
+	const setResponse = await setLocalUser(response.data);
+	return setResponse;
+};
+
 const init = async () => {
 	await setLocalUser(defaultUser);
 };
