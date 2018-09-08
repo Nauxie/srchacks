@@ -3,16 +3,54 @@ import { AsyncStorage } from 'react-native';
 const defaultUser = {
 	id: 0,
 	type: 'user',
-	name: 'User',
-	history: [
-		{
-			id: 0,
-			type: 'trash',
-			score: 1,
+	name: 'User Name',
+	image: 'http://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png',
+	history: {
+		1: {
+			title: 'TRASH',
+			points: 5,
+			longitude: 1,
+			latitude: 1,
 		},
-	],
-	getScore: () => this.history.reduce(
-		(accumulator, currentValue) => accumulator + currentValue.score,
+		2: {
+			title: 'TRASH',
+			points: 5,
+			longitude: 1,
+			latitude: 1,
+		},
+		3: {
+			title: 'TRASH',
+			points: 5,
+			longitude: 1,
+			latitude: 1,
+		},
+		4: {
+			title: 'TRASH',
+			points: 5,
+			longitude: 1,
+			latitude: 1,
+		},
+		5: {
+			title: 'TRASH',
+			points: 5,
+			longitude: 1,
+			latitude: 1,
+		},
+		6: {
+			title: 'TRASH',
+			points: 5,
+			longitude: 1,
+			latitude: 1,
+		},
+		7: {
+			title: 'TRASH',
+			points: 5,
+			longitude: 1,
+			latitude: 1,
+		},
+	},
+	getScore: () => Object.values(this.history).reduce(
+		(accumulator, currentValue) => accumulator + currentValue.points,
 	),
 };
 
@@ -28,7 +66,7 @@ const setLocalUser = async (user) => {
 const getLocalUser = async () => {
 	try {
 		const value = await AsyncStorage.getItem('@Storage:user');
-		return { type: 'success', data: value };
+		return { type: 'success', data: JSON.parse(value) };
 	} catch (error) {
 		return { type: 'error', data: error };
 	}
@@ -38,7 +76,7 @@ const init = async () => {
 	await setLocalUser(defaultUser);
 };
 
-export {
+export default {
 	init,
 	getLocalUser,
 	setLocalUser,
