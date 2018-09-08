@@ -1,5 +1,19 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "sWEep",
+    "version": "0.0.1",
+    "slug": "sWEep-slug",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "com.sweep.sweep"
+    },
+    "android": {
+      "package": "com.sweep.sweep",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBE-8EbP_WA1gNVZ6UjL8A0-URnD7l1DQ4"
+        }
+      }
+    }
   }
 }
