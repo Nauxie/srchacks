@@ -1,22 +1,11 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Map from './Views/Map';
+import { createStackNavigator } from 'react-navigation';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+import Map from './Views/Map';
+import User from './Views/User';
+
+const App = createStackNavigator({
+	Map: { screen: Map },
+	User: { screen: User },
 });
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Map />
-      </View>
-    );
-  }
-}
+export default App;

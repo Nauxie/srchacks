@@ -10,14 +10,14 @@ const styles = StyleSheet.create({
 	},
 });
 
-class Map extends React.Component {
+class User extends React.Component {
 	render() {
 		return (<View style={styles.container} />);
 	}
 }
 
-Map.navigationOptions = {
+User.navigationOptions = {
 	title: 'User',
 };
 
-export default Map;
+export default User;
