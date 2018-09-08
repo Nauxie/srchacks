@@ -1,5 +1,5 @@
 <application>
    <meta-data
-      android:name="com.google.android.geo.API_KEY"
-      android:value="AIzaSyA7hyEVGlu9MTqrAU3PYMNj_LvIuRO4L6s"/>
+      android:name="com.google.android.geo.AIzaSyBE-8EbP_WA1gNVZ6UjL8A0-URnD7l1DQ4"
+      android:value="AIzaSyBE-8EbP_WA1gNVZ6UjL8A0-URnD7l1DQ4"/>
 </application>
