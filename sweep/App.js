@@ -1,11 +1,11 @@
 import { createStackNavigator } from 'react-navigation';
 
-import Map from './Views/Map';
-import User from './Views/User';
+import MapView from './Views/Map';
+import UserView from './Views/User';
 
 const App = createStackNavigator({
-	Map: { screen: Map },
-	User: { screen: User },
+	Map: { screen: MapView },
+	User: { screen: UserView },
 });
 
 export default App;

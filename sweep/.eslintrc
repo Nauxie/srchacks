@@ -11,6 +11,8 @@
 		"import/no-extraneous-dependencies": false,
 		"react/destructuring-assignment": false,
 		"indent": ["error", "tab"],
-		"no-tabs": 0
+		"no-tabs": 0,
+		"react/jsx-indent": false,
+		"react/jsx-indent-props": false
 	}
 }

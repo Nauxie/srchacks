@@ -1,0 +1,3 @@
+dependencies {
+   compile project(':react-native-maps')
+}
