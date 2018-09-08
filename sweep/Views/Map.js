@@ -31,7 +31,7 @@ class Map extends React.Component {
 }
 
 Map.navigationOptions = {
-	title: 'User',
+	title: 'Map',
 };
 
 export default Map;

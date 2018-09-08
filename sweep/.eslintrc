@@ -13,6 +13,7 @@
 		"indent": ["error", "tab"],
 		"no-tabs": 0,
 		"react/jsx-indent": false,
-		"react/jsx-indent-props": false
+		"react/jsx-indent-props": false,
+		"react/prop-types": false
 	}
 }
