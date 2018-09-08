@@ -1,16 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Map from 'Views/Map';
-
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-	  	<Map></Map>
-      </View>
-    );
-  }
-}
+import { StyleSheet, View } from 'react-native';
+import Map from './Views/Map';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,3 +10,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Map />
+      </View>
+    );
+  }
+}
