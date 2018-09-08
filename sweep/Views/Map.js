@@ -1,5 +1,7 @@
 import React from 'react';
 import { MapView } from 'expo';
+import View from 'react-native';
+import Info from './Info';
 
 class Map extends React.Component {
 	constructor(props) {
@@ -7,6 +9,8 @@ class Map extends React.Component {
 
 		this.state = {
 			markers: {},
+			clicked: null,
+			isLoading: true,
 		};
 
 		this.loadMarkers = this.loadMarkers.bind(this);
@@ -18,7 +22,7 @@ class Map extends React.Component {
 	}
 
 	loadMarkers() {
-		let markers = {};
+		const markers = {};
 		// call to firebase and fill markers
 		markers[741365] = {
 			title: 'Aluminum Can',
@@ -27,33 +31,43 @@ class Map extends React.Component {
 			longitude: -122.4334,
 		};
 
-		this.setState({ markers: markers });
+		this.setState({ markers, isLoading: false });
 		// set this.state.markers to markers
 	}
 
 	markerClicked(e) {
-		console.log(e.nativeEvent.id);
+		this.setState({ clicked: e.nativeEvent.id });
 
 		// display screen with more info
 		// fetch data about this marker from this.state
 	}
 
 	render() {
-		console.log(this.state.markers);
-		return (
-			<MapView
-				style={{
-					flex: 1,
-				}}
-				initialRegion={{
-					latitude: 37.78825,
-					longitude: -122.4324,
-					latitudeDelta: 0.0922,
-					longitudeDelta: 0.0421,
-				}}
-			>
-				{this.state.isLoading ? null : Object.keys(this.state.markers).forEach((m) => {
-					// for(let marker in this.state.markers)
+		if (this.state.clicked == null) {
+			return (
+				<MapView
+					style={{
+						flex: 1,
+					}}
+					initialRegion={{
+						latitude: 37.78825,
+						longitude: -122.4324,
+						latitudeDelta: 0.0922,
+						longitudeDelta: 0.0421,
+					}}
+				>
+					<MapView.Marker
+						identifier="741365"
+						coordinate={{
+							latitude: 37.78925,
+							longitude: -122.4334,
+						}}
+						title="Aluminum Can"
+						description="5"
+						onPress={e => this.markerClicked(e)}
+					/>
+
+					{/* {this.state.isLoading ? null : Object.keys(this.state.markers).forEach((m) => {
 					console.log(m);
 					const marker = this.state.markers[m];
 					console.log(marker);
@@ -64,15 +78,35 @@ class Map extends React.Component {
 
 					return (
 						<MapView.Marker
-							identifier={marker.id}
+							identifier={m}
 							coordinate={coords}
 							title={marker.title}
 							description={`${marker.points} points`}
 							onPress={e => this.markerClicked(e)}
 						/>
 					);
-				})}
-			</MapView>
+				})} */}
+				</MapView>
+			);
+		}
+		return (
+			<React.Fragment>
+				<MapView
+					style={{
+						flex: 1,
+					}}
+					initialRegion={{
+						latitude: 37.78825,
+						longitude: -122.4324,
+						latitudeDelta: 0.0922,
+						longitudeDelta: 0.0421,
+					}}
+				/>
+				<Info
+					data={this.state.markers[this.state.clicked]}
+					close={() => this.setState({ clicked: null })}
+				/>
+			</React.Fragment>
 		);
 	}
 }
