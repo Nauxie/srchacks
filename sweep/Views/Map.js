@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import MapView from 'react-native-maps';
 
 const styles = StyleSheet.create({
@@ -15,6 +15,8 @@ export default class Map extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        {/* <Text> sWEep </Text> */}
+        {/* <Text> 我很聪明 </Text> */}
         <MapView
           initialRegion={{
             latitude: 37.78825,
