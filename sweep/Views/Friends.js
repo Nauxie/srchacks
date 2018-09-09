@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	StyleSheet, Text, View, FlatList, Image, RefreshControl, fetchData, _onRefresh,
+	StyleSheet, Text, View, FlatList, Image, RefreshControl, _onRefresh,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -63,6 +63,8 @@ class Friends extends React.Component {
 				},
 		  ].sort((a, b) => b.score - a.score),
 		};
+
+		this._onRefresh = this._onRefresh.bind(this);
 	  }
 
 	 _onRefresh() {
