@@ -117,7 +117,7 @@ class Firebase {
 						poster: this.user,
 						picked: false,
 						title: data.title,
-						points: data.points,
+						points: Math.round(data.points),
 					});
 				});
 			});
