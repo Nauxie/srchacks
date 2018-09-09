@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
 		borderBottomColor: '#ddd',
 		borderBottomWidth: 1,
 	},
+	centerAlign: {
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 	listTitle: {
 		textAlign: 'left',
 		padding: 15,
@@ -62,7 +66,7 @@ class UserHistory extends React.Component {
 	render() {
 		if (this.state.history.length === 0) {
 			return (
-				<View style={styles.container}>
+				<View style={[styles.container, styles.centerAlign]}>
 					<Text>Go save the planet!</Text>
 				</View>
 			);
