@@ -16,15 +16,15 @@ class Firebase {
 		this.db = firebase.firestore();
 		const settings = { timestampsInSnapshots: true };
 		this.db.settings(settings);
-
+		
 		this.markers = this.db.collection('markers');
 		this.users = this.db.collection('users');
-		this.user = 'YpezIiNLJC9KH2c9D63i';
+		this.user = 'YpezIiNLJC9KH2c9D63i'; // USER AUTHENTICATION
+		
+		this.img = firebase.storage().ref();
 
 		this.getMarkers = this.getMarkers.bind(this);
 		this.pickup = this.pickup.bind(this);
-
-		return this;
 	}
 
 	async getMarkers() {
@@ -58,22 +58,23 @@ class Firebase {
 		});
 	}
 
-	postMarker(/* image */) {
-		// send img to server to verify with AI
-		// if resolves as trash
-		// return title and points
-		let title = 'trash';
-		let points = 5;
-		// upload image to firebase storage
+	postMarker(data) {
+		let title = data.title;
+		let points = data.points;
+		let ref = v1();
+		this.img.child(ref);
+		this.img.put(data.image).then((snap) => {
+			console.log(snap);
+		});
 
-		this.db.collection('markers').doc(v1()).set({
+		this.db.collection('markers').doc(ref).set({
 			latitude: 37.78425,
 			longitude: -122.4364,
 			poster: this.user,
 			picked: false,
 			title,
 			points,
-			// set image to storage reference
+			img: ref,
 		});
 	}
 }

@@ -3,11 +3,15 @@ import { MapView } from 'expo';
 import { StyleSheet } from 'react-native';
 
 import Info from './Info';
-import AddMarkerButton from '../Components/AddMarkerButton';
+import RoundedButton from '../Components/RoundedButton';
 
 const styles = StyleSheet.create({
 	basicFlex: {
 		flex: 1,
+	},
+	addMarkerButton: {
+		right: 16,
+		bottom: 16,
 	},
 });
 
@@ -100,7 +104,11 @@ class Map extends React.Component {
 					>
 						{this.placeMarkers()}
 					</MapView>
-					<AddMarkerButton style={styles.addMarkerButton} onPress={() => this.props.navigation.navigate('Camera')} />
+					<RoundedButton
+						style={styles.addMarkerButton}
+						onPress={() => this.props.navigation.navigate('Camera')}
+						icon="add"
+					/>
 				</React.Fragment>
 			);
 		}

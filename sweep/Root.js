@@ -12,7 +12,16 @@ import Firebase from './Views/Firebase';
 
 let fire = new Firebase();
 
-const FriendsScreen = <FriendsView fire={fire} />;
+const FriendsScreen = createStackNavigator(
+	{
+		Friends: {
+			screen: () => <FriendsView fire={fire} />,
+			navigationOptions: {
+				headerTitle: 'Friends',
+			},
+		},
+	},
+);
 
 const MapScreen = createStackNavigator(
 	{
@@ -23,7 +32,7 @@ const MapScreen = createStackNavigator(
 			},
 		},
 		Camera: {
-			screen: CameraView,
+			screen: () => <CameraView fire={fire} />,
 			navigationOptions: {
 				header: null,
 			},

@@ -6,7 +6,7 @@ const defaultUser = {
 	type: 'user',
 	name: 'User Name',
 	image: 'http://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png',
-	history: {},
+	history: {}, // FILL IN FROM FIREBASE IN SETLOCALUSER
 	getScore: () => Object.values(this.history).reduce(
 		(accumulator, currentValue) => accumulator + currentValue.points,
 	),
