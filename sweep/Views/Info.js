@@ -36,7 +36,7 @@ class Info extends React.Component {
 
 	pickup() {
 		alert(`You earned ${this.state.points} points!`);
-		this.props.close();
+		this.props.close(true);
 	}
 
 	navigate() {
@@ -69,7 +69,7 @@ class Info extends React.Component {
 				/>
 				<Button
 					title="Close"
-					onPress={this.props.close}
+					onPress={() => this.props.close(false)}
 				/>
 			</View>
 		);
