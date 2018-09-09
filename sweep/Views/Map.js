@@ -25,14 +25,61 @@ class Map extends React.Component {
 		const markers = {};
 		// call to firebase and fill markers
 		markers[741365] = {
-			title: 'Aluminum Can',
+			title: 'Plastic Bag',
 			points: 5,
 			latitude: 37.78925,
 			longitude: -122.4334,
 		};
+		markers[3498] = {
+			title: 'Plastic Bag 2',
+			points: 8,
+			latitude: 37.7865,
+			longitude: -122.4314,
+		};
 
 		this.setState({ markers, isLoading: false });
 		// set this.state.markers to markers
+	}
+
+	placeMarkers() {
+		let markers = [];
+		if (this.state.isLoading) {
+			return (null);
+		}
+
+		Object.keys(this.state.markers).forEach((m) => {
+			console.log(m);
+			const marker = this.state.markers[m];
+			console.log(marker);
+			const coords = {
+				latitude: marker.latitude,
+				longitude: marker.longitude,
+			};
+
+			markers.push(
+				<MapView.Marker
+					identifier={m}
+					coordinate={coords}
+					title={marker.title}
+					description={`${marker.points} points`}
+					onPress={e => this.markerClicked(e)}
+				/>,
+			);
+		});
+		return (markers);
+
+		// return (
+		// 	<MapView.Marker
+		// 		identifier="741365"
+		// 		coordinate={{
+		// 			latitude: 37.78925,
+		// 			longitude: -122.4334,
+		// 		}}
+		// 		title="Plastic Bag"
+		// 		description="5"
+		// 		onPress={e => this.markerClicked(e)}
+		// 	/>
+		// );
 	}
 
 	markerClicked(e) {
@@ -56,36 +103,18 @@ class Map extends React.Component {
 						longitudeDelta: 0.0421,
 					}}
 				>
-					<MapView.Marker
+					{/* <MapView.Marker
 						identifier="741365"
 						coordinate={{
 							latitude: 37.78925,
 							longitude: -122.4334,
 						}}
-						title="Aluminum Can"
+						title="Plastic Bag"
 						description="5"
 						onPress={e => this.markerClicked(e)}
-					/>
+					/> */}
 
-					{/* {this.state.isLoading ? null : Object.keys(this.state.markers).forEach((m) => {
-					console.log(m);
-					const marker = this.state.markers[m];
-					console.log(marker);
-					const coords = {
-						latitude: marker.latitude,
-						longitude: marker.longitude,
-					};
-
-					return (
-						<MapView.Marker
-							identifier={m}
-							coordinate={coords}
-							title={marker.title}
-							description={`${marker.points} points`}
-							onPress={e => this.markerClicked(e)}
-						/>
-					);
-				})} */}
+					{this.placeMarkers()}
 				</MapView>
 			);
 		}
