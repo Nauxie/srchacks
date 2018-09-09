@@ -1,6 +1,6 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
 
 import Config from './Config';
 
@@ -97,7 +97,7 @@ class RootScreen extends React.Component {
 }
 RootScreen.router = Root.router;
 
-const LoginOrRoot = createStackNavigator(
+const LoginOrRoot = createSwitchNavigator(
 	{
 		Login: {
 			screen: ({ navigation }) => <LoginView navigation={navigation} fire={fire} />,
