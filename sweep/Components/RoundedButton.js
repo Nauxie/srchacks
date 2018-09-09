@@ -27,7 +27,7 @@ class RoundedButton extends React.Component {
 				onPress={this.props.onPress}
 				underlayColor={this.props.underlayColor || Config.mainLight}
 			>
-				<Ionicons style={styles.icon} name={`ios-${this.props.icon}`} size={40} color="#fff" />
+				<Ionicons style={styles.icon} name={`ios-${this.props.icon}`} size={40} color={this.props.color || '#fff'} />
 			</TouchableHighlight>
 		);
 	}

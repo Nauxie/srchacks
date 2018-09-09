@@ -6,6 +6,7 @@ import { Camera, Permissions } from 'expo';
 import Clarifai from 'clarifai';
 
 import RoundedButton from '../Components/RoundedButton';
+import Config from '../Config';
 
 const styles = StyleSheet.create({
 	basicFlex: {
@@ -50,6 +51,7 @@ export default class CameraView extends React.Component {
 			hasCameraPermission: null,
 			type: Camera.Constants.Type.back,
 			isLoading: false,
+			results: '',
 		};
 	}
 
@@ -59,18 +61,17 @@ export default class CameraView extends React.Component {
 	}
 
 	pictureResults(data) {
-		console.log(data.type === 'success' ? (data.data.type === 'trash' ? 'TRASH!' : 'NOT TRASH!') : `Something went wrong... ${data.data}`);
-		this.setState({ isLoading: false });
+		const result = data.type === 'success' ? (data.data.type === 'trash' ? 'TRASH!' : 'NOT TRASH!') : `Something went wrong... ${data.data}`;
+		this.setState({ isLoading: false, results: result });
 	}
 
 	async snap() {
-		if (this.camera) {
+		if (this.camera && this.state.hasCameraPermission) {
 			this.setState({ isLoading: true });
-			const photo = await this.camera.takePictureAsync({ base64: true });
-
 			try {
+				const photo = await this.camera.takePictureAsync({ base64: true });
+
 				const response = await clarifai.models.predict(Clarifai.GENERAL_MODEL, photo.base64);
-				console.log(response);
 				const { concepts } = response.outputs[0].data;
 				let done = false;
 				if (concepts && concepts.length > 0) {
@@ -100,10 +101,19 @@ export default class CameraView extends React.Component {
 		} if (hasCameraPermission === false) {
 			return <Text>No access to camera</Text>;
 		}
-		if (this.state.isLoading) {
+		if (this.state.isLoading || this.state.results) {
 			return (
 				<View style={[styles.basicFlex, styles.centerContent]}>
-					<Text>Loading...</Text>
+					<RoundedButton
+						style={styles.closeCameraButton}
+						onPress={() => {
+							this.props.navigation.navigate('Map');
+						}}
+						icon="close"
+						underlayColor="transparent"
+						color={Config.mainColor}
+					/>
+					<Text>{ this.state.isLoading ? 'Loading...' : this.state.results }</Text>
 				</View>
 			);
 		}

@@ -11,7 +11,7 @@ import CameraView from './Views/Camera';
 
 const FriendsScreen = createStackNavigator(
 	{
-		Profile: {
+		Friends: {
 			screen: () => <FriendsView />,
 			navigationOptions: {
 				headerTitle: 'Friends',
