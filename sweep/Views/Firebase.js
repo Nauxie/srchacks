@@ -95,23 +95,34 @@ class Firebase {
 		});
 	}
 
-	postMarker(data) {
+	async postMarker(data) {
 		const title = data.title;
 		const points = data.points;
 		const ref = v1();
-		const image = new Blob(data.image, { type: 'data/png' });
-		this.img.child(`${ref}.png`).put(image).then((snap) => {
-			// console.log(snap);
-		});
-		this.db.collection('markers').doc(ref).set({
-			latitude: 37.78425,
-			longitude: -122.4364,
-			poster: this.user,
-			picked: false,
-			title,
-			points,
-			img: ref,
-		});
+
+		fetch(`data:image/png;base64,${data.image.base64}`)
+			.then(res => res.blob())
+			.then(async (blob) => {
+				this.img.child(`${ref}.png`).put(blob).then((snap) => {
+					console.log(`Uploaded ${ref}.png`);
+				});
+
+				let latitude = 0;
+				let longitude = 0;
+				await navigator.geolocation.getCurrentPosition((loc) => {
+					latitude = loc.latitude;
+					longitude = loc.longitude;
+				});
+				this.db.collection('markers').doc(ref).set({
+					latitude,
+					longitude,
+					poster: this.user,
+					picked: false,
+					title,
+					points,
+					img: ref,
+				});
+			});
 	}
 
 	async getImage(id) {

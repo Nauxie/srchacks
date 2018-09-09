@@ -61,12 +61,11 @@ export default class CameraView extends React.Component {
 		this.setState({ hasCameraPermission: status === 'granted' });
 	}
 
-	pictureResults(data) {
+	async pictureResults(data) {
 		const result = data.type === 'error' ? `Something went wrong... ${JSON.stringify(data.data)}` : '';
 		this.setState({ isLoading: false, results: result });
-		console.log(data);
 		if (data.type === 'trash') {
-			this.state.fire.postMarker(data);
+			await this.state.fire.postMarker(data.data);
 		}
 	}
 
@@ -80,21 +79,28 @@ export default class CameraView extends React.Component {
 				const { concepts } = response.outputs[0].data;
 				let done = false;
 				if (concepts && concepts.length > 0) {
-					concepts.forEach((prediction) => {
+					concepts.forEach(async (prediction) => {
 						// If already done, don't do it again
 						if (done) return;
 						console.log(`${prediction.name} ${prediction.value}`);
 						if ((prediction.name === 'cardboard' || prediction.name === 'glass' || prediction.name === 'metal' || prediction.name === 'paper' || prediction.name === 'plastic' || prediction.name === 'trash') && prediction.value >= 0.60) {
-							this.pictureResults({ title: prediction.name, points: prediction.value * 10, image: photo });
 							done = true;
+							await this.pictureResults({
+								type: 'trash',
+								data: {
+									title: prediction.name,
+									points: prediction.value * 10,
+									image: photo,
+								},
+							});
 						}
 					});
 				}
 				if (!done) {
-					this.pictureResults({ data: { type: 'none' } });
+					await this.pictureResults({ type: 'none' });
 				}
 			} catch (error) {
-				this.pictureResults({ data: error });
+				await this.pictureResults({ type: 'error', data: error });
 			}
 		}
 	}
