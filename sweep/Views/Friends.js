@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Image,RefreshControl, fetchData,_onRefresh} from 'react-native';
+import {
+	StyleSheet, Text, View, FlatList, Image, RefreshControl, fetchData, _onRefresh,
+} from 'react-native';
 
 const styles = StyleSheet.create({
 	container: {
@@ -29,54 +31,54 @@ class Friends extends React.Component {
 		this.state = {
 		  refreshing: false,
 		  friends: [
-			{
-				id: 1,
-				name: "Alma Nguyen",
-				image: "https://randomuser.me/api/portraits/women/66.jpg",
-				score: 156,
-			},	
-			{
-				id: "2",
-				name: "Alfred Wells",
-				image: "https://randomuser.me/api/portraits/men/51.jpg",
-				score: 119,
-			},
-			{
-				id: 3,
-				name: "Glen Beck",
-				image: "https://randomuser.me/api/portraits/men/59.jpg",
-				score: 88,
-			},
-			{
-				id: 4,
-				name: "Melvin Rogers",
-				image: "https://randomuser.me/api/portraits/men/57.jpg",
-				score: 54,
-			},
-			{
-				id: 5,
-				name: "Tracey Jordan",
-				image: "https://randomuser.me/api/portraits/women/52.jpg",
-				score: 1233,
-			},
-		  ].sort((a, b) => b.score - a.score)
+				{
+					id: 1,
+					name: 'Alma Nguyen',
+					image: 'https://randomuser.me/api/portraits/women/66.jpg',
+					score: 156,
+				},
+				{
+					id: '2',
+					name: 'Alfred Wells',
+					image: 'https://randomuser.me/api/portraits/men/51.jpg',
+					score: 119,
+				},
+				{
+					id: 3,
+					name: 'Glen Beck',
+					image: 'https://randomuser.me/api/portraits/men/59.jpg',
+					score: 88,
+				},
+				{
+					id: 4,
+					name: 'Melvin Rogers',
+					image: 'https://randomuser.me/api/portraits/men/57.jpg',
+					score: 54,
+				},
+				{
+					id: 5,
+					name: 'Tracey Jordan',
+					image: 'https://randomuser.me/api/portraits/women/52.jpg',
+					score: 1233,
+				},
+		  ].sort((a, b) => b.score - a.score),
 		};
 	  }
-	
-	 _onRefresh = () => {
-		this.setState({refreshing: true});
-		this.setState((prevState) => ({friends: prevState.friends.sort((a, b) => b.score - a.score), ...prevState}), () => {
-			this.setState({refreshing: false});
-		})
+
+	 _onRefresh() {
+		this.setState({ refreshing: true });
+		this.setState(prevState => ({ friends: prevState.friends.sort((a, b) => b.score - a.score), ...prevState }), () => {
+			this.setState({ refreshing: false });
+		});
 	  }
-	
+
 	render() {
 		const entry = ({ item }) => (
 			<View style={styles.listItem}>
 				<Image
   					style={{
-					transform: [{translateX: 14}, {translateY: 7}],
-					borderRadius: 25,
+						transform: [{ translateX: 14 }, { translateY: 7 }],
+						borderRadius: 25,
    					width: 51,
     				height: 51,
     				resizeMode: Image.resizeMode.contain,
@@ -91,21 +93,21 @@ class Friends extends React.Component {
 				</Text>
 
 			</View>
-		);	
+		);
 		return (
 			<View style={styles.container}>
 				<FlatList
-					refreshControl={
-					<RefreshControl
+					refreshControl={(
+						<RefreshControl
 					  refreshing={this.state.refreshing}
 					  onRefresh={this._onRefresh}
-					/>
-				  }
+						/>
+					)}
 					data={this.state.friends}
 					renderItem={entry}
 					keyExtractor={item => `${item.id}`}
 				/>
-			</View>		
+			</View>
 		);
 	}
 }

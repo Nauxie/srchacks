@@ -1,13 +1,13 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import { StyleSheet, Text, View, FlatList, List, ListItem, } from 'react-native';
 
 import Config from './Config';
 
 import FriendsView from './Views/Friends';
 import MapView from './Views/Map';
 import ProfileView from './Views/Profile';
+import CameraView from './Views/Camera';
 
 const FriendsScreen = createStackNavigator(
 	{
@@ -20,7 +20,25 @@ const FriendsScreen = createStackNavigator(
 	},
 );
 
-const MapScreen = MapView;
+const MapScreen = createStackNavigator(
+	{
+		Map: {
+			screen: MapView,
+			navigationOptions: {
+				header: null,
+			},
+		},
+		Camera: {
+			screen: CameraView,
+			navigationOptions: {
+				header: null,
+			},
+		},
+	},
+	{
+		initialRouteName: 'Map',
+	},
+);
 
 const ProfileScreen = createStackNavigator(
 	{

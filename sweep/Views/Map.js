@@ -1,7 +1,15 @@
 import React from 'react';
 import { MapView } from 'expo';
-import View from 'react-native';
+import { StyleSheet } from 'react-native';
+
 import Info from './Info';
+import AddMarkerButton from '../Components/AddMarkerButton';
+
+const styles = StyleSheet.create({
+	basicFlex: {
+		flex: 1,
+	},
+});
 
 class Map extends React.Component {
 	constructor(props) {
@@ -14,87 +22,125 @@ class Map extends React.Component {
 		};
 
 		this.loadMarkers = this.loadMarkers.bind(this);
+		this.placeMarkers = this.placeMarkers.bind(this);
 		this.markerClicked = this.markerClicked.bind(this);
+		this.refreshMarkers = this.refreshMarkers.bind(this);
 	}
 
 	componentDidMount() {
 		this.loadMarkers();
+		const Geolocation = navigator.geolocation;
+		Geolocation.getCurrentPosition((loc) => {
+			console.log(loc);
+			const { markers } = this.state;
+			markers.curr = {
+				title: 'You!',
+				points: '∞',
+				latitude: loc.coords.latitude,
+				longitude: loc.coords.longitude,
+			};
+			this.setState({ markers });
+		});
 	}
 
 	loadMarkers() {
 		const markers = {};
 		// call to firebase and fill markers
 		markers[741365] = {
-			title: 'Aluminum Can',
+			title: 'Plastic Bag',
 			points: 5,
 			latitude: 37.78925,
 			longitude: -122.4334,
 		};
+		markers[3498] = {
+			title: 'Plastic Bag 2',
+			points: 8,
+			latitude: 37.7865,
+			longitude: -122.4314,
+		};
 
 		this.setState({ markers, isLoading: false });
-		// set this.state.markers to markers
+	}
+
+	placeMarkers() {
+		const markers = [];
+		if (this.state.isLoading) {
+			return (null);
+		}
+
+		Object.keys(this.state.markers).forEach((markerKey) => {
+			console.log(markerKey);
+			const marker = this.state.markers[markerKey];
+			console.log(marker);
+			const coords = {
+				latitude: marker.latitude,
+				longitude: marker.longitude,
+			};
+
+			markers.push(
+				<MapView.Marker
+					identifier={markerKey}
+					coordinate={coords}
+					title={marker.title}
+					description={`${marker.points} points`}
+					onPress={e => this.markerClicked(e)}
+					key={markerKey}
+					pinColor={(markerKey === 'curr') ? 'blue' : null}
+				/>,
+			);
+		});
+		return (markers);
 	}
 
 	markerClicked(e) {
 		this.setState({ clicked: e.nativeEvent.id });
+	}
 
-		// display screen with more info
-		// fetch data about this marker from this.state
+	refreshMarkers(picked) {
+		if (picked) {
+			console.log(this.state.markers);
+			const { markers } = this.state;
+			delete markers[this.state.clicked];
+			this.setState({ markers, clicked: null });
+		} else {
+			this.setState({ clicked: null });
+		}
 	}
 
 	render() {
 		if (this.state.clicked == null) {
 			return (
-				<MapView
-					style={{
-						flex: 1,
-					}}
-					initialRegion={{
-						latitude: 37.78825,
-						longitude: -122.4324,
-						latitudeDelta: 0.0922,
-						longitudeDelta: 0.0421,
-					}}
-				>
-					<MapView.Marker
+				<React.Fragment>
+					<MapView
+						style={styles.basicFlex}
+						initialRegion={{
+							latitude: 37.78825,
+							longitude: -122.4324,
+							latitudeDelta: 0.0922,
+							longitudeDelta: 0.0421,
+						}}
+					>
+						{/* <MapView.Marker
 						identifier="741365"
 						coordinate={{
 							latitude: 37.78925,
 							longitude: -122.4334,
 						}}
-						title="Aluminum Can"
+						title="Plastic Bag"
 						description="5"
 						onPress={e => this.markerClicked(e)}
-					/>
+					/> */}
 
-					{/* {this.state.isLoading ? null : Object.keys(this.state.markers).forEach((m) => {
-					console.log(m);
-					const marker = this.state.markers[m];
-					console.log(marker);
-					const coords = {
-						latitude: marker.latitude,
-						longitude: marker.longitude,
-					};
-
-					return (
-						<MapView.Marker
-							identifier={m}
-							coordinate={coords}
-							title={marker.title}
-							description={`${marker.points} points`}
-							onPress={e => this.markerClicked(e)}
-						/>
-					);
-				})} */}
-				</MapView>
+						{this.placeMarkers()}
+					</MapView>
+					<AddMarkerButton style={styles.addMarkerButton} onPress={() => this.props.navigation.navigate('Camera')} />
+				</React.Fragment>
 			);
 		}
 		return (
 			<React.Fragment>
 				<MapView
-					style={{
-						flex: 1,
-					}}
+					style={styles.basicFlex}
 					initialRegion={{
 						latitude: 37.78825,
 						longitude: -122.4324,
@@ -104,7 +150,7 @@ class Map extends React.Component {
 				/>
 				<Info
 					data={this.state.markers[this.state.clicked]}
-					close={() => this.setState({ clicked: null })}
+					close={this.refreshMarkers}
 				/>
 			</React.Fragment>
 		);
