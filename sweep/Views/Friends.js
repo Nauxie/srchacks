@@ -35,13 +35,13 @@ class Friends extends React.Component {
 					id: 1,
 					name: 'Alma Hall',
 					image: 'https://randomuser.me/api/portraits/women/66.jpg',
-					score: 156,
+					score: 60,
 				},
 				{
 					id: '2',
 					name: 'Alfred Wells',
 					image: 'https://randomuser.me/api/portraits/men/51.jpg',
-					score: 119,
+					score: 154,
 				},
 				{
 					id: 3,
