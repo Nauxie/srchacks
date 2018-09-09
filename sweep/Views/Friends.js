@@ -8,7 +8,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#fff',
 		width: '100%',
+		
 	},
+	titleText: {
+		fontSize: 40,
+		fontWeight: 'bold',
+		transform: [{ translateX: 70 }],
+	},
+	
 	listItem: {
 		width: '100%',
 
@@ -30,6 +37,7 @@ class Friends extends React.Component {
 		super(props);
 		this.state = {
 		  refreshing: false,
+		  titleText: 'Leaderboard',
 		  friends: [
 				{
 					id: 1,
@@ -105,7 +113,11 @@ class Friends extends React.Component {
 			</View>
 		);
 		return (
+			
 			<View style={styles.container}>
+				<Text style={styles.titleText}>
+				{this.state.titleText}
+				</Text>
 				<FlatList
 					refreshControl={(
 						<RefreshControl
@@ -113,17 +125,20 @@ class Friends extends React.Component {
 					  onRefresh={this._onRefresh}
 						/>
 					)}
+					
 					data={this.state.friends}
 					renderItem={entry}
 					keyExtractor={item => `${item.id}`}
 				/>
+				
+				
 			</View>
 		);
 	}
 }
 
 Friends.navigationOptions = {
-	title: 'Friends Leaderboard',
+	title: 'Friends',
 };
 
 export default Friends;
