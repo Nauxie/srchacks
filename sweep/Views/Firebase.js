@@ -101,7 +101,9 @@ class Firebase {
 		const ref = v1();
 		const image = new Blob(data.image, { type: 'data/png' });
 		this.img.child(`${ref}.png`).put(image).then((snap) => {
-			console.log(`Uploaded ${ref}.png`);
+			snap.ref.getDownloadURL().then((url) => {
+				console.log('Uploaded ${ref}.png to ', url);
+			});
 		});
 
 		let latitude = 0;
