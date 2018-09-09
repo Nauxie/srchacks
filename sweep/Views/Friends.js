@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	StyleSheet, Text, View, FlatList, Image, RefreshControl, _onRefresh,
+	StyleSheet, Text, View, FlatList, Image, RefreshControl, onRefresh,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -33,15 +33,15 @@ class Friends extends React.Component {
 		  friends: [
 				{
 					id: 1,
-					name: 'Alma Nguyen',
+					name: 'Alma Hall',
 					image: 'https://randomuser.me/api/portraits/women/66.jpg',
-					score: 156,
+					score: 60,
 				},
 				{
 					id: '2',
 					name: 'Alfred Wells',
 					image: 'https://randomuser.me/api/portraits/men/51.jpg',
-					score: 119,
+					score: 154,
 				},
 				{
 					id: 3,
@@ -59,8 +59,16 @@ class Friends extends React.Component {
 					id: 5,
 					name: 'Tracey Jordan',
 					image: 'https://randomuser.me/api/portraits/women/52.jpg',
-					score: 1233,
+					score: 123,
+
 				},
+				{	id: 6,
+					name: 'Victoria Fox',
+					image: 'https://randomuser.me/api/portraits/women/96.jpg',
+					score: 7
+
+				}
+				,
 		  ].sort((a, b) => b.score - a.score),
 		};
 
