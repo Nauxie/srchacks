@@ -8,13 +8,16 @@ import FriendsView from './Views/Friends';
 import MapView from './Views/Map';
 import ProfileView from './Views/Profile';
 import CameraView from './Views/Camera';
+import Firebase from './Views/Firebase';
 
-const FriendsScreen = FriendsView;
+let fire = new Firebase();
+
+const FriendsScreen = <FriendsView fire={fire} />;
 
 const MapScreen = createStackNavigator(
 	{
 		Map: {
-			screen: MapView,
+			screen: () => <MapView fire={fire} />,
 			navigationOptions: {
 				header: null,
 			},
@@ -34,7 +37,7 @@ const MapScreen = createStackNavigator(
 const ProfileScreen = createStackNavigator(
 	{
 		Profile: {
-			screen: () => <ProfileView localUser />,
+			screen: () => <ProfileView localUser fire={fire} />,
 			navigationOptions: {
 				headerTitle: 'Profile',
 				headerLeft: (<Ionicons onPress={() => alert('Settings!')} name="ios-settings-outline" size={32} color={Config.mainColor} />),

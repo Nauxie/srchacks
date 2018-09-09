@@ -1,54 +1,12 @@
 import { AsyncStorage } from 'react-native';
+import Firebase from '../Views/Firebase';
 
 const defaultUser = {
 	id: 0,
 	type: 'user',
 	name: 'User Name',
 	image: 'http://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png',
-	history: {
-		1: {
-			title: 'TRASH',
-			points: 5,
-			longitude: 1,
-			latitude: 1,
-		},
-		2: {
-			title: 'TRASH',
-			points: 5,
-			longitude: 1,
-			latitude: 1,
-		},
-		3: {
-			title: 'TRASH',
-			points: 5,
-			longitude: 1,
-			latitude: 1,
-		},
-		4: {
-			title: 'TRASH',
-			points: 5,
-			longitude: 1,
-			latitude: 1,
-		},
-		5: {
-			title: 'TRASH',
-			points: 5,
-			longitude: 1,
-			latitude: 1,
-		},
-		6: {
-			title: 'TRASH',
-			points: 5,
-			longitude: 1,
-			latitude: 1,
-		},
-		7: {
-			title: 'TRASH',
-			points: 5,
-			longitude: 1,
-			latitude: 1,
-		},
-	},
+	history: {},
 	getScore: () => Object.values(this.history).reduce(
 		(accumulator, currentValue) => accumulator + currentValue.points,
 	),
@@ -88,6 +46,7 @@ const addMarker = async (marker) => {
 };
 
 const init = async () => {
+	
 	await setLocalUser(defaultUser);
 };
 

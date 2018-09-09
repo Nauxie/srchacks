@@ -22,6 +22,8 @@ class Info extends React.Component {
 		super(props);
 
 		this.state = {
+			fire: this.props.fire,
+			id: this.props.id,
 			title: this.props.data.title,
 			points: this.props.data.points,
 			coords: {
@@ -35,8 +37,20 @@ class Info extends React.Component {
 	}
 
 	pickup() {
-		alert(`You earned ${this.state.points} points!`);
-		this.props.close(true);
+		const Geolocation = navigator.geolocation;
+		Geolocation.getCurrentPosition((loc) => {
+			if (loc.coords.latitude - this.state.coords.latitude <= 0.0010
+				&& loc.coords.longitude - this.state.coords.longitude <= 0.0010) {
+				console.log(this.state.id);
+				this.state.fire.pickup(this.state.id);
+				alert(`You earned ${this.state.points} points!`);
+				this.props.close(true);
+			} else {
+				alert('You aren\'t close enough to the trash!');
+				this.state.fire.postMarker();
+				this.props.close(false);
+			}
+		});
 	}
 
 	navigate() {
@@ -45,28 +59,37 @@ class Info extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.data);
 		return (
 			<View style={styles.container}>
-				<Image
-					style={{ width: 275, height: 200, marginTop: 15 }}
-					source={{
-						uri: 'https://seeclickfix.com/files/comment_images/0004/6657/1c2c5060.png',
-						crop: {
-							top: 40, bottom: 40,
-						},
-					}}
-				/>
+				{this.state.title === 'You!'
+					? <Image /> // profile pic
+					: (
+						<Image
+							style={{ width: 275, height: 200, marginTop: 15 }}
+							source={{
+								uri: 'https://seeclickfix.com/files/comment_images/0004/6657/1c2c5060.png',
+								crop: {
+									top: 40, bottom: 40,
+								},
+							}}
+						/>
+					)
+				}
 				<Text style={{ fontSize: 30, margin: 10 }}> {this.state.title} </Text>
 				<Text style={{ fontSize: 50, margin: 10 }}> {this.state.points} points </Text>
-				<Button
-					title="Pick Up"
-					onPress={this.pickup}
-				/>
-				<Button
-					title="Directions"
-					onPress={this.navigate} // open in Google Maps
-				/>
+				{this.state.title === 'You!' ? null : (
+					<React.Fragment>
+						<Button
+							title="Pick Up"
+							onPress={this.pickup}
+						/>
+						<Button
+							title="Directions"
+							onPress={this.navigate} // open in Google Maps
+						/>
+					</React.Fragment>
+				)
+				}
 				<Button
 					title="Close"
 					onPress={() => this.props.close(false)}
