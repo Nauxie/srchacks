@@ -30,11 +30,16 @@ class Info extends React.Component {
 				latitude: this.props.data.latitude,
 				longitude: this.props.data.longitude,
 			},
-			// url: this.props.fire.getImage(this.props.id),
+			url: 'https://seeclickfix.com/files/comment_images/0004/6657/1c2c5060.png',
 		};
 
 		this.pickup = this.pickup.bind(this);
 		this.navigate = this.navigate.bind(this);
+	}
+
+	async componentDidMount() {
+		const url = await this.props.fire.getImage(this.props.id);
+		this.setState({ url });
 	}
 
 	pickup() {
@@ -42,7 +47,6 @@ class Info extends React.Component {
 		Geolocation.getCurrentPosition((loc) => {
 			if (loc.coords.latitude - this.state.coords.latitude <= 1.0010
 				&& loc.coords.longitude - this.state.coords.longitude <= 1.0010) {
-				console.log(this.state.id);
 				this.state.fire.pickup(this.state.id);
 				alert(`You earned ${this.state.points} points!`);
 				this.props.close(true);
@@ -68,10 +72,10 @@ class Info extends React.Component {
 						<Image
 							style={{ width: 275, height: 200, marginTop: 15 }}
 							source={{
-								uri: 'https://seeclickfix.com/files/comment_images/0004/6657/1c2c5060.png', // this.state.url,
-								crop: {
-									top: 40, bottom: 40,
-								},
+								uri: this.state.url,
+								// crop: {
+								// 	top: 40, bottom: 40,
+								// },
 							}}
 						/>
 					)

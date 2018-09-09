@@ -18,12 +18,15 @@ const styles = StyleSheet.create({
 class Map extends React.Component {
 	constructor(props) {
 		super(props);
+		console.log('navigation');
+		console.log(props.navigation);
 
 		this.state = {
 			markers: {},
 			clicked: null,
 			isLoading: true,
 			fire: this.props.fire,
+			// navigation: this.props.navigation,
 		};
 
 		this.placeMarkers = this.placeMarkers.bind(this);
@@ -42,7 +45,7 @@ class Map extends React.Component {
 				latitude: loc.coords.latitude,
 				longitude: loc.coords.longitude,
 			};
-			console.log(markers);
+			// console.log(markers);
 			this.setState({ markers, isLoading: false });
 		});
 	}
@@ -112,7 +115,6 @@ class Map extends React.Component {
 				</React.Fragment>
 			);
 		}
-		console.log(this.state.clicked);
 		return (
 			<React.Fragment>
 				<MapView

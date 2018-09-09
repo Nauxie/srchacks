@@ -117,9 +117,9 @@ class Firebase {
 		});
 	}
 
-	getImage(id) {
-		const image = this.storage.ref(`${id}.png`);
-		return image.getDownloadURL().then(url => (url));
+	async getImage(id) {
+		const url = await this.storage.ref(`${id}.png`).getDownloadURL();
+		return (url);
 	}
 }
 export default Firebase;

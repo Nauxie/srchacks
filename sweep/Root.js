@@ -19,7 +19,6 @@ const FriendsScreen = createStackNavigator(
 			screen: () => <FriendsView fire={fire} />,
 			navigationOptions: {
 				headerTitle: 'Friends',
-				
 			},
 		},
 	},
@@ -28,13 +27,13 @@ const FriendsScreen = createStackNavigator(
 const MapScreen = createStackNavigator(
 	{
 		Map: {
-			screen: () => <MapView fire={fire} />,
+			screen: ({navigation}) => <MapView navigation={navigation} fire={fire} />,
 			navigationOptions: {
 				header: null,
 			},
 		},
 		Camera: {
-			screen: () => <CameraView fire={fire} />,
+			screen: ({navigation}) => <CameraView navigation={navigation} fire={fire} />,
 			navigationOptions: {
 				header: null,
 			},
