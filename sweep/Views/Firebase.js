@@ -16,11 +16,11 @@ class Firebase {
 		this.db = firebase.firestore();
 		const settings = { timestampsInSnapshots: true };
 		this.db.settings(settings);
-		
+
 		this.markers = this.db.collection('markers');
 		this.users = this.db.collection('users');
 		this.user = 'YpezIiNLJC9KH2c9D63i'; // USER AUTHENTICATION
-		
+
 		this.img = firebase.storage().ref();
 
 		this.getMarkers = this.getMarkers.bind(this);
@@ -59,9 +59,9 @@ class Firebase {
 	}
 
 	postMarker(data) {
-		let title = data.title;
-		let points = data.points;
-		let ref = v1();
+		const title = data.title;
+		const points = data.points;
+		const ref = v1();
 		this.img.child(ref);
 		this.img.put(data.image).then((snap) => {
 			console.log(snap);
