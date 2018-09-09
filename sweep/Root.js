@@ -9,7 +9,16 @@ import MapView from './Views/Map';
 import ProfileView from './Views/Profile';
 import CameraView from './Views/Camera';
 
-const FriendsScreen = FriendsView;
+const FriendsScreen = createStackNavigator(
+	{
+		Profile: {
+			screen: () => <FriendsView />,
+			navigationOptions: {
+				headerTitle: 'Friends',
+			},
+		},
+	},
+);
 
 const MapScreen = createStackNavigator(
 	{
