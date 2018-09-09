@@ -66,6 +66,7 @@ export default class CameraView extends React.Component {
 		this.setState({ isLoading: false, results: result });
 		if (data.type === 'trash') {
 			await this.state.fire.postMarker(data.data);
+			this.props.navigation.navigate('Map');
 		}
 	}
 

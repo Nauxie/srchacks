@@ -72,7 +72,7 @@ class Info extends React.Component {
 						<Image
 							style={{ width: 275, height: 200, marginTop: 15 }}
 							source={{
-								uri: this.state.url,
+								uri: this.state.url || 'https://seeclickfix.com/files/comment_images/0004/6657/1c2c5060.png',
 								// crop: {
 								// 	top: 40, bottom: 40,
 								// },

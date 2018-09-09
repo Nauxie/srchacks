@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import Info from './Info';
 import RoundedButton from '../Components/RoundedButton';
-import { load } from 'grpc';
+// import { load } from 'grpc';
 
 const styles = StyleSheet.create({
 	basicFlex: {
@@ -33,7 +33,8 @@ class Map extends React.Component {
 	}
 
 	async componentDidMount() {
-		this.state.fire.getReload(this.loadMarkers);
+		this.loadMarkers();
+		this.state.fire.addReloadEventListener(this.loadMarkers);
 	}
 
 	async loadMarkers() {
