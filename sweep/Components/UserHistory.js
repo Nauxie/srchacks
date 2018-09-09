@@ -50,7 +50,7 @@ class UserHistory extends React.Component {
 
 	async componentDidMount() {
 		let markers = await this.state.fire.getMarkers(false);
-		console.log(markers);
+		// console.log(markers);
 		let mine = [];
 		for(let i of this.state.history) {
 			mine.push(markers[i]);

@@ -29,18 +29,17 @@ class Firebase {
 	}
 
 	setUserId(user) {
-		this.user = user.id;
-		console.log(this.user);
+		this.user = user.uid;
 		let exists = false;
 		this.users.get().then((snap) => {
 			snap.forEach((doc) => {
-				if (doc.id === user.id) {
+				if (doc.id === user.uid) {
 					exists = true;
 				}
 			});
 			if (!exists) {
 				this.users.doc(user.id).set({
-					name: user.name,
+					name: user.displayName,
 					image: user.photoUrl,
 					history: [],
 					score: 0,

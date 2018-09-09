@@ -18,9 +18,6 @@ const styles = StyleSheet.create({
 class Map extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log('navigation');
-		console.log(props.navigation);
-
 		this.state = {
 			markers: {},
 			clicked: null,

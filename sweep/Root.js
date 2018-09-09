@@ -27,13 +27,13 @@ const FriendsScreen = createStackNavigator(
 const MapScreen = createStackNavigator(
 	{
 		Map: {
-			screen: ({navigation}) => <MapView navigation={navigation} fire={fire} />,
+			screen: ({ navigation }) => <MapView navigation={navigation} fire={fire} />,
 			navigationOptions: {
 				header: null,
 			},
 		},
 		Camera: {
-			screen: ({navigation}) => <CameraView navigation={navigation} fire={fire} />,
+			screen: ({ navigation }) => <CameraView navigation={navigation} fire={fire} />,
 			navigationOptions: {
 				header: null,
 			},

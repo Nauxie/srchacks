@@ -28,8 +28,8 @@ class Login extends React.Component {
 		const obj = this;
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user != null) {
+				this.state.fire.setUserId(user.providerData[0]);
 				obj.props.navigation.navigate('Root');
-				this.state.fire.setUserId(user);
 			}
 		});
 	}
@@ -44,7 +44,6 @@ class Login extends React.Component {
 
 			if (result.type === 'success') {
 				// const credential = firebase.auth.GoogleAuthProvider.credential(null, result.accessToken);
-				// console.log(result.user);
 				this.state.fire.setUserId(result.user);
 				try {
 					// Sign in with credential from the Facebook user.
