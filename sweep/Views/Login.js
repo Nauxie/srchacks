@@ -37,17 +37,17 @@ class Login extends React.Component {
 	async loginWithGoogle() {
 		try {
 			const result = await Expo.Google.logInAsync({
-				// androidClientId: 'ANDROID IDC',
+				androidClientId: '23813249783-knvjarmthe75p0t51apgnidbugqhfn9f.apps.googleusercontent.com',
 				iosClientId: '23813249783-s3kcbj16kml9j5epi25j8k5i33vlr5sv.apps.googleusercontent.com',
 				scopes: ['profile'],
 			});
 
 			if (result.type === 'success') {
-				// const credential = firebase.auth.GoogleAuthProvider.credential(null, result.accessToken);
+				const credential = firebase.auth.GoogleAuthProvider.credential(null, result.accessToken);
 				this.state.fire.setUserId(result.user);
 				try {
 					// Sign in with credential from the Facebook user.
-					// const userCred = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+					 const userCred = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 					console.log(`Success! User: ${result.user.name}`);
 				} catch (fireError) {
 					console.error(fireError);
