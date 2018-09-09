@@ -12,6 +12,7 @@ const defaultUser = {
 };
 
 const setLocalUser = async (user) => {
+	console.log(user);
 	try {
 		await AsyncStorage.setItem('@Storage:user', JSON.stringify(user));
 		return { type: 'success' };

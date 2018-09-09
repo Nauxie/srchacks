@@ -40,6 +40,25 @@ const styles = StyleSheet.create({
  *  }
  */
 class UserHistory extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			fire: this.props.fire,
+			history: this.props.history,
+		};
+	}
+
+	async componentDidMount() {
+		let markers = await this.state.fire.getMarkers(false);
+		console.log(markers);
+		let mine = [];
+		for(let i of this.state.history) {
+			mine.push(markers[i]);
+		}
+
+		this.setState({history: mine});
+	}
+
 	render() {
 		const entry = ({ item }) => (
 			<View style={styles.listItem}>
@@ -50,7 +69,7 @@ class UserHistory extends React.Component {
 		return (
 			<View style={styles.container}>
 				<FlatList
-					data={Utilities.objectToArray(this.props.history)}
+					data={this.state.history}
 					renderItem={entry}
 					keyExtractor={item => item.id}
 				/>

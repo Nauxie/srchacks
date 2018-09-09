@@ -8,9 +8,10 @@ import FriendsView from './Views/Friends';
 import MapView from './Views/Map';
 import ProfileView from './Views/Profile';
 import CameraView from './Views/Camera';
+import LoginView from './Views/Login';
 import Firebase from './Views/Firebase';
 
-let fire = new Firebase();
+const fire = new Firebase();
 
 const FriendsScreen = createStackNavigator(
 	{
@@ -55,7 +56,6 @@ const ProfileScreen = createStackNavigator(
 	},
 );
 
-
 const Root = createBottomTabNavigator(
 	{
 		Friends: { screen: FriendsScreen },
@@ -88,4 +88,33 @@ const Root = createBottomTabNavigator(
 	},
 );
 
-export default Root;
+class RootScreen extends React.Component {
+	render() {
+		return (
+			<Root navigation={this.props.navigation} />
+		);
+	}
+}
+RootScreen.router = Root.router;
+
+const LoginOrRoot = createStackNavigator(
+	{
+		Login: {
+			screen: ({ navigation }) => <LoginView navigation={navigation} fire={fire} />,
+			navigationOptions: {
+				header: null,
+			},
+		},
+		Root: {
+			screen: RootScreen,
+			navigationOptions: {
+				header: null,
+			},
+		},
+	},
+	{
+		initialRouteName: 'Login',
+	},
+);
+
+export default LoginOrRoot;

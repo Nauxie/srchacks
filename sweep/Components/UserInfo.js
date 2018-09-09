@@ -40,7 +40,7 @@ class UserInfo extends React.Component {
 					source={{ uri: this.props.user.image ? this.props.user.image : 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
 				/>
 				<Text style={styles.profileName}>{this.props.user.name}</Text>
-				<Text style={styles.profileScore}>{`Score: ${Utilities.getUserScore(this.props.user)}`}</Text>
+				<Text style={styles.profileScore}>{`Score: ${this.props.user.score}`}</Text>
 			</View>
 		);
 	}

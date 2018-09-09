@@ -28,16 +28,41 @@ class Firebase {
 		this.pickup = this.pickup.bind(this);
 	}
 
+	setUserId(user) {
+		this.user = user.id;
+		console.log(this.user);
+		let exists = false;
+		this.users.get().then((snap) => {
+			snap.forEach((doc) => {
+				if (doc.id === user.id) {
+					exists = true;
+				}
+			});
+			if (!exists) {
+				this.users.doc(user.id).set({
+					name: user.name,
+					image: user.photoUrl,
+					history: [],
+					score: 0,
+				});
+			}
+		});
+	}
+
 	async getUser() {
 		await this.users.doc(this.user).get().then((doc) => { this.userData = doc.data(); });
 		return (this.userData);
 	}
 
-	async getMarkers() {
+	async getMarkers(bool) {
 		const markers = {};
 		return this.markers.get().then((snapshot) => {
 			snapshot.forEach((doc) => {
-				if (!doc.data().picked) {
+				if (bool) {
+					if (!doc.data().picked) {
+						markers[doc.id] = doc.data();
+					}
+				} else {
 					markers[doc.id] = doc.data();
 				}
 			});
@@ -52,7 +77,7 @@ class Firebase {
 		});
 		const history = [];
 		this.users.doc(this.user).get().then((doc) => {
-			for (let i of doc.data().history) {
+			for (const i of doc.data().history) {
 				history.push(i);
 			}
 			console.log(history);

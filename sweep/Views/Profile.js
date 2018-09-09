@@ -52,7 +52,7 @@ class Profile extends React.Component {
 		return (
 			<View style={styles.container}>
 				<UserInfo user={this.state.user} />
-				<UserHistory history={this.state.user.history} />
+				<UserHistory history={this.state.user.history} fire={this.state.fire} />
 			</View>
 		);
 	}
