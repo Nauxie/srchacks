@@ -99,12 +99,13 @@ class Firebase {
 		const title = data.title;
 		const points = data.points;
 		const ref = v1();
-
 		fetch(`data:image/png;base64,${data.image.base64}`)
 			.then(res => res.blob())
 			.then(async (blob) => {
 				this.img.child(`${ref}.png`).put(blob).then((snap) => {
-					console.log(`Uploaded ${ref}.png`);
+					snap.ref.getDownloadURL().then((url) => {
+						console.log('Uploaded ${ref}.png to ', url);
+					});
 				});
 
 				let latitude = 0;
