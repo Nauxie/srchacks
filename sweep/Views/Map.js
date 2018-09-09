@@ -22,11 +22,25 @@ class Map extends React.Component {
 		};
 
 		this.loadMarkers = this.loadMarkers.bind(this);
+		this.placeMarkers = this.placeMarkers.bind(this);
 		this.markerClicked = this.markerClicked.bind(this);
+		this.refreshMarkers = this.refreshMarkers.bind(this);
 	}
 
 	componentDidMount() {
 		this.loadMarkers();
+		const Geolocation = navigator.geolocation;
+		Geolocation.getCurrentPosition((loc) => {
+			console.log(loc);
+			const { markers } = this.state;
+			markers.curr = {
+				title: 'You!',
+				points: '∞',
+				latitude: loc.coords.latitude,
+				longitude: loc.coords.longitude,
+			};
+			this.setState({ markers });
+		});
 	}
 
 	loadMarkers() {
@@ -46,7 +60,6 @@ class Map extends React.Component {
 		};
 
 		this.setState({ markers, isLoading: false });
-		// set this.state.markers to markers
 	}
 
 	placeMarkers() {
@@ -72,37 +85,32 @@ class Map extends React.Component {
 					description={`${marker.points} points`}
 					onPress={e => this.markerClicked(e)}
 					key={markerKey}
+					pinColor={(markerKey === 'curr') ? 'blue' : null}
 				/>,
 			);
 		});
 		return (markers);
-
-		// return (
-		// 	<MapView.Marker
-		// 		identifier="741365"
-		// 		coordinate={{
-		// 			latitude: 37.78925,
-		// 			longitude: -122.4334,
-		// 		}}
-		// 		title="Plastic Bag"
-		// 		description="5"
-		// 		onPress={e => this.markerClicked(e)}
-		// 	/>
-		// );
 	}
 
 	markerClicked(e) {
 		this.setState({ clicked: e.nativeEvent.id });
+	}
 
-		// display screen with more info
-		// fetch data about this marker from this.state
+	refreshMarkers(picked) {
+		if (picked) {
+			console.log(this.state.markers);
+			const { markers } = this.state;
+			delete markers[this.state.clicked];
+			this.setState({ markers, clicked: null });
+		} else {
+			this.setState({ clicked: null });
+		}
 	}
 
 	render() {
 		if (this.state.clicked == null) {
 			return (
 				<React.Fragment>
-
 					<MapView
 						style={styles.basicFlex}
 						initialRegion={{
@@ -142,7 +150,7 @@ class Map extends React.Component {
 				/>
 				<Info
 					data={this.state.markers[this.state.clicked]}
-					close={() => this.setState({ clicked: null })}
+					close={this.refreshMarkers}
 				/>
 			</React.Fragment>
 		);
