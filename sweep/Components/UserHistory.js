@@ -49,17 +49,25 @@ class UserHistory extends React.Component {
 	}
 
 	async componentDidMount() {
-		let markers = await this.state.fire.getMarkers(false);
+		const markers = await this.state.fire.getMarkers(false);
 		// console.log(markers);
-		let mine = [];
-		for(let i of this.state.history) {
+		const mine = [];
+		for (const i of this.state.history) {
 			mine.push(markers[i]);
 		}
 
-		this.setState({history: mine});
+		this.setState({ history: mine });
 	}
 
 	render() {
+		if (this.state.history.length === 0) {
+			return (
+				<View style={styles.container}>
+					<Text>Go save the planet!</Text>
+				</View>
+			);
+		}
+
 		const entry = ({ item }) => (
 			<View style={styles.listItem}>
 				<Text style={styles.listTitle}>{`${item.title} - ${item.points} points`}</Text>

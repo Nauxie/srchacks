@@ -62,9 +62,12 @@ export default class CameraView extends React.Component {
 	}
 
 	pictureResults(data) {
-		const result = data.type === 'success' ? (data.data.type === 'trash' ? 'TRASH!' : 'NOT TRASH!') : `Something went wrong... ${data.data}`;
+		const result = data.type === 'error' ? `Something went wrong... ${JSON.stringify(data.data)}` : '';
 		this.setState({ isLoading: false, results: result });
-		this.state.fire.postMarker(data);
+		console.log(data);
+		if (data.type === 'trash') {
+			this.state.fire.postMarker(data);
+		}
 	}
 
 	async snap() {
@@ -88,7 +91,7 @@ export default class CameraView extends React.Component {
 					});
 				}
 				if (!done) {
-					this.pictureResults({ data: { type: 'none', image: photo } });
+					this.pictureResults({ data: { type: 'none' } });
 				}
 			} catch (error) {
 				this.pictureResults({ data: error });

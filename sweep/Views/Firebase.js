@@ -38,9 +38,9 @@ class Firebase {
 				}
 			});
 			if (!exists) {
-				this.users.doc(user.id).set({
+				this.users.doc(this.user).set({
 					name: user.displayName,
-					image: user.photoUrl,
+					image: user.photoURL,
 					history: [],
 					score: 0,
 				});
@@ -99,12 +99,10 @@ class Firebase {
 		const title = data.title;
 		const points = data.points;
 		const ref = v1();
-		this.img.child(`${ref}.png`);
 		const image = new Blob(data.image, { type: 'data/png' });
-		this.img.put(image).then((snap) => {
-			console.log(snap);
+		this.img.child(`${ref}.png`).put(image).then((snap) => {
+			// console.log(snap);
 		});
-
 		this.db.collection('markers').doc(ref).set({
 			latitude: 37.78425,
 			longitude: -122.4364,
