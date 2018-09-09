@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import Info from './Info';
 import RoundedButton from '../Components/RoundedButton';
+import { load } from 'grpc';
 
 const styles = StyleSheet.create({
 	basicFlex: {
@@ -23,16 +24,21 @@ class Map extends React.Component {
 			clicked: null,
 			isLoading: true,
 			fire: this.props.fire,
-			// navigation: this.props.navigation,
 		};
 
+		this.loadMarkers = this.loadMarkers.bind(this);
 		this.placeMarkers = this.placeMarkers.bind(this);
 		this.markerClicked = this.markerClicked.bind(this);
 		this.refreshMarkers = this.refreshMarkers.bind(this);
 	}
 
 	async componentDidMount() {
+		this.state.fire.getReload(this.loadMarkers);
+	}
+
+	async loadMarkers() {
 		const markers = await this.state.fire.getMarkers(true);
+		console.log(markers);
 
 		navigator.geolocation.getCurrentPosition((loc) => {
 			markers.curr = {
@@ -41,7 +47,7 @@ class Map extends React.Component {
 				latitude: loc.coords.latitude,
 				longitude: loc.coords.longitude,
 			};
-			// console.log(markers);
+			console.log(markers);
 			this.setState({ markers, isLoading: false });
 		});
 	}

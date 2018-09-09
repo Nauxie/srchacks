@@ -3,7 +3,7 @@ import '@firebase/firestore';
 import v1 from 'uuid';
 
 class Firebase {
-	constructor() {
+	constructor(props) {
 		firebase.initializeApp({
 			apiKey: 'AIzaSyCEx-jQXJCYwAI5ZrHBe1VpVKksR9fFCk8',
 			authDomain: 'sweep-215818.firebaseapp.com',
@@ -12,6 +12,8 @@ class Firebase {
 			storageBucket: 'sweep-215818.appspot.com',
 			messagingSenderId: '23813249783',
 		});
+
+		console.log(props);
 
 		this.db = firebase.firestore();
 		const settings = { timestampsInSnapshots: true };
@@ -24,8 +26,14 @@ class Firebase {
 		this.storage = firebase.storage();
 		this.img = firebase.storage().ref();
 
+		this.getReload = this.getReload.bind(this);
 		this.getMarkers = this.getMarkers.bind(this);
 		this.pickup = this.pickup.bind(this);
+	}
+
+	getReload(load) {
+		console.log('I reload the map markers whenever you want me to!')
+		load(); 
 	}
 
 	setUserId(user) {
@@ -79,14 +87,11 @@ class Firebase {
 			for (const i of doc.data().history) {
 				history.push(i);
 			}
-			console.log(history);
 			history.push(id);
-			console.log(history);
 
 			let score = doc.data().score;
-			console.log(score);
-			this.markers.doc(id).get().then((doc) => {
-				score += doc.data().points;
+			this.markers.doc(id).get().then((mark) => {
+				score += mark.data().points;
 				this.users.doc(this.user).update({
 					score,
 					history,
@@ -96,34 +101,27 @@ class Firebase {
 	}
 
 	async postMarker(data) {
-		const title = data.title;
-		const points = data.points;
 		const ref = v1();
 		fetch(`data:image/png;base64,${data.image.base64}`)
 			.then(res => res.blob())
 			.then(async (blob) => {
 				this.img.child(`${ref}.png`).put(blob).then((snap) => {
 					snap.ref.getDownloadURL().then((url) => {
-						console.log('Uploaded ${ref}.png to ', url);
+						console.log(`Uploaded ${ref}.png to ${url}`);
 					});
 				});
-
-				let latitude = 0;
-				let longitude = 0;
-				await navigator.geolocation.getCurrentPosition((loc) => {
-					latitude = loc.latitude;
-					longitude = loc.longitude;
-				});
-				this.db.collection('markers').doc(ref).set({
-					latitude,
-					longitude,
-					poster: this.user,
-					picked: false,
-					title,
-					points,
-					img: ref,
+				navigator.geolocation.getCurrentPosition((loc) => {
+					this.db.collection('markers').doc(ref).set({
+						latitude: loc.latitude + 0.0001,
+						longitude: loc.longitude + 0.0001,
+						poster: this.user,
+						picked: false,
+						title: data.title,
+						points: data.points,
+					});
 				});
 			});
+		this.getReload(); // ONCE YOU'VE CREATED A NEW MARKER, I RELOAD THE MARKERS TO RENDER THAT NEW ONE TOO
 	}
 
 	async getImage(id) {
