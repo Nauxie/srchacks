@@ -1,6 +1,7 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { StyleSheet, Text, View, FlatList, List, ListItem, } from 'react-native';
 
 import Config from './Config';
 
@@ -8,7 +9,17 @@ import FriendsView from './Views/Friends';
 import MapView from './Views/Map';
 import ProfileView from './Views/Profile';
 
-const FriendsScreen = FriendsView;
+const FriendsScreen = createStackNavigator(
+	{
+		Profile: {
+			screen: () => <FriendsView />,
+			navigationOptions: {
+				headerTitle: 'Friends',
+			},
+		},
+	},
+);
+
 const MapScreen = MapView;
 
 const ProfileScreen = createStackNavigator(
