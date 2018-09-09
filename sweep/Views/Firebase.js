@@ -16,15 +16,21 @@ class Firebase {
 		this.db = firebase.firestore();
 		const settings = { timestampsInSnapshots: true };
 		this.db.settings(settings);
-		
+
 		this.markers = this.db.collection('markers');
 		this.users = this.db.collection('users');
 		this.user = 'YpezIiNLJC9KH2c9D63i'; // USER AUTHENTICATION
-		
+
+		this.storage = firebase.storage();
 		this.img = firebase.storage().ref();
 
 		this.getMarkers = this.getMarkers.bind(this);
 		this.pickup = this.pickup.bind(this);
+	}
+
+	async getUser() {
+		await this.users.doc(this.user).get().then((doc) => { this.userData = doc.data(); });
+		return (this.userData);
 	}
 
 	async getMarkers() {
@@ -46,24 +52,32 @@ class Firebase {
 		});
 		const history = [];
 		this.users.doc(this.user).get().then((doc) => {
-			console.log(doc.data());
-			for (const i in doc.data().history) {
+			for (let i of doc.data().history) {
 				history.push(i);
 			}
+			console.log(history);
 			history.push(id);
 			console.log(history);
-			this.users.doc(this.user).update({
-				history,
+
+			let score = doc.data().score;
+			console.log(score);
+			this.markers.doc(id).get().then((doc) => {
+				score += doc.data().points;
+				this.users.doc(this.user).update({
+					score,
+					history,
+				});
 			});
 		});
 	}
 
 	postMarker(data) {
-		let title = data.title;
-		let points = data.points;
-		let ref = v1();
-		this.img.child(ref);
-		this.img.put(data.image).then((snap) => {
+		const title = data.title;
+		const points = data.points;
+		const ref = v1();
+		this.img.child(`${ref}.png`);
+		const image = new Blob(data.image, { type: 'data/png' });
+		this.img.put(image).then((snap) => {
 			console.log(snap);
 		});
 
@@ -77,6 +91,10 @@ class Firebase {
 			img: ref,
 		});
 	}
-}
 
+	getImage(id) {
+		const image = this.storage.ref(`${id}.png`);
+		return image.getDownloadURL().then(url => (url));
+	}
+}
 export default Firebase;

@@ -52,7 +52,7 @@ export default class CameraView extends React.Component {
 			type: Camera.Constants.Type.back,
 			isLoading: false,
 			results: '',
-			fire: props.fire,
+			fire: this.props.fire,
 		};
 	}
 
@@ -115,7 +115,7 @@ export default class CameraView extends React.Component {
 						underlayColor="transparent"
 						color={Config.mainColor}
 					/>
-					<Text>{ this.state.isLoading ? 'Loading...' : this.state.results }</Text>
+					<Text>{this.state.isLoading ? 'Loading...' : this.state.results}</Text>
 				</View>
 			);
 		}

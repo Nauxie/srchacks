@@ -29,8 +29,9 @@ class Friends extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-		  refreshing: false,
-		  friends: [
+			refreshing: false,
+			fire: this.props.fire,
+			friends: [
 				{
 					id: 1,
 					name: 'Alma Hall',
@@ -62,41 +63,42 @@ class Friends extends React.Component {
 					score: 123,
 
 				},
-				{	id: 6,
+				{
+					id: 6,
 					name: 'Victoria Fox',
 					image: 'https://randomuser.me/api/portraits/women/96.jpg',
 					score: 7
 
 				}
 				,
-		  ].sort((a, b) => b.score - a.score),
+			].sort((a, b) => b.score - a.score),
 		};
 
 		this._onRefresh = this._onRefresh.bind(this);
-	  }
+	}
 
-	 _onRefresh() {
+	_onRefresh() {
 		this.setState({ refreshing: true });
 		this.setState(prevState => ({ friends: prevState.friends.sort((a, b) => b.score - a.score), ...prevState }), () => {
 			this.setState({ refreshing: false });
 		});
-	  }
+	}
 
 	render() {
 		const entry = ({ item }) => (
 			<View style={styles.listItem}>
 				<Image
-  					style={{
+					style={{
 						transform: [{ translateX: 14 }, { translateY: 7 }],
 						borderRadius: 25,
-   					width: 51,
-    				height: 51,
-    				resizeMode: Image.resizeMode.contain,
-  					}}
-  					source={{
-    				uri:
-     					 item.image,
-  					}}
+						width: 51,
+						height: 51,
+						resizeMode: Image.resizeMode.contain,
+					}}
+					source={{
+						uri:
+							item.image,
+					}}
 				/>
 				<Text style={styles.listTitle}>
 					{`${item.name} - ${item.score} points`}
@@ -109,8 +111,8 @@ class Friends extends React.Component {
 				<FlatList
 					refreshControl={(
 						<RefreshControl
-					  refreshing={this.state.refreshing}
-					  onRefresh={this._onRefresh}
+							refreshing={this.state.refreshing}
+							onRefresh={this._onRefresh}
 						/>
 					)}
 					data={this.state.friends}

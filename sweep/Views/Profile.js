@@ -26,6 +26,7 @@ class Profile extends React.Component {
 		super(props);
 		this.state = {
 			user: this.props.user || {},
+			fire: this.props.fire,
 		};
 	}
 
@@ -33,6 +34,7 @@ class Profile extends React.Component {
 		// If need local user, get from DB
 		if (this.props.localUser) {
 			// Load the user data into state
+			UserDB.setLocalUser(await this.state.fire.getUser());
 			const user = await UserDB.getLocalUser();
 			this.setState({ user: (user.type === 'success' ? user.data : {}) });
 		}

@@ -30,6 +30,7 @@ class Info extends React.Component {
 				latitude: this.props.data.latitude,
 				longitude: this.props.data.longitude,
 			},
+			// url: this.props.fire.getImage(this.props.id),
 		};
 
 		this.pickup = this.pickup.bind(this);
@@ -39,8 +40,8 @@ class Info extends React.Component {
 	pickup() {
 		const Geolocation = navigator.geolocation;
 		Geolocation.getCurrentPosition((loc) => {
-			if (loc.coords.latitude - this.state.coords.latitude <= 0.0010
-				&& loc.coords.longitude - this.state.coords.longitude <= 0.0010) {
+			if (loc.coords.latitude - this.state.coords.latitude <= 1.0010
+				&& loc.coords.longitude - this.state.coords.longitude <= 1.0010) {
 				console.log(this.state.id);
 				this.state.fire.pickup(this.state.id);
 				alert(`You earned ${this.state.points} points!`);
@@ -67,7 +68,7 @@ class Info extends React.Component {
 						<Image
 							style={{ width: 275, height: 200, marginTop: 15 }}
 							source={{
-								uri: 'https://seeclickfix.com/files/comment_images/0004/6657/1c2c5060.png',
+								uri: 'https://seeclickfix.com/files/comment_images/0004/6657/1c2c5060.png', // this.state.url,
 								crop: {
 									top: 40, bottom: 40,
 								},
