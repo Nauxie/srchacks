@@ -20,6 +20,18 @@ class Map extends React.Component {
 
 	componentDidMount() {
 		this.loadMarkers();
+		const Geolocation = navigator.geolocation;
+		Geolocation.getCurrentPosition((loc) => {
+			console.log(loc);
+			const markers = this.state.markers;
+			markers.curr = {
+				title: 'You!',
+				points: '∞',
+				latitude: loc.coords.latitude,
+				longitude: loc.coords.longitude,
+			};
+			this.setState({ markers });
+		});
 	}
 
 	loadMarkers() {
@@ -39,7 +51,6 @@ class Map extends React.Component {
 		};
 
 		this.setState({ markers, isLoading: false });
-		// set this.state.markers to markers
 	}
 
 	placeMarkers() {
@@ -64,6 +75,7 @@ class Map extends React.Component {
 					title={marker.title}
 					description={`${marker.points} points`}
 					onPress={e => this.markerClicked(e)}
+					pinColor={(m === 'curr') ? 'blue' : null}
 				/>,
 			);
 		});
@@ -77,11 +89,10 @@ class Map extends React.Component {
 	refreshMarkers(picked) {
 		if (picked) {
 			console.log(this.state.markers);
-			let markers = this.state.markers;
+			const markers = this.state.markers;
 			delete markers[this.state.clicked];
 			this.setState({ markers, clicked: null });
-		}
-		else {
+		} else {
 			this.setState({ clicked: null });
 		}
 	}
