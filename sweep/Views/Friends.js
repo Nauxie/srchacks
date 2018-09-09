@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	StyleSheet, Text, View, FlatList, Image, RefreshControl, onRefresh,
+	StyleSheet, Text, View, FlatList, Image, RefreshControl,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -123,7 +123,7 @@ class Friends extends React.Component {
 }
 
 Friends.navigationOptions = {
-	title: 'Friends',
+	title: 'Friends Leaderboard',
 };
 
 export default Friends;
