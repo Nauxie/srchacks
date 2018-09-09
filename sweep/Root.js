@@ -7,9 +7,29 @@ import Config from './Config';
 import FriendsView from './Views/Friends';
 import MapView from './Views/Map';
 import ProfileView from './Views/Profile';
+import CameraView from './Views/Camera';
 
 const FriendsScreen = FriendsView;
-const MapScreen = MapView;
+
+const MapScreen = createStackNavigator(
+	{
+		Map: {
+			screen: MapView,
+			navigationOptions: {
+				header: null,
+			},
+		},
+		Camera: {
+			screen: CameraView,
+			navigationOptions: {
+				header: null,
+			},
+		},
+	},
+	{
+		initialRouteName: 'Map',
+	},
+);
 
 const ProfileScreen = createStackNavigator(
 	{

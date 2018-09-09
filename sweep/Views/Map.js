@@ -1,7 +1,15 @@
 import React from 'react';
 import { MapView } from 'expo';
-import View from 'react-native';
+import { StyleSheet } from 'react-native';
+
 import Info from './Info';
+import AddMarkerButton from '../Components/AddMarkerButton';
+
+const styles = StyleSheet.create({
+	basicFlex: {
+		flex: 1,
+	},
+});
 
 class Map extends React.Component {
 	constructor(props) {
@@ -42,14 +50,14 @@ class Map extends React.Component {
 	}
 
 	placeMarkers() {
-		let markers = [];
+		const markers = [];
 		if (this.state.isLoading) {
 			return (null);
 		}
 
-		Object.keys(this.state.markers).forEach((m) => {
-			console.log(m);
-			const marker = this.state.markers[m];
+		Object.keys(this.state.markers).forEach((markerKey) => {
+			console.log(markerKey);
+			const marker = this.state.markers[markerKey];
 			console.log(marker);
 			const coords = {
 				latitude: marker.latitude,
@@ -58,11 +66,12 @@ class Map extends React.Component {
 
 			markers.push(
 				<MapView.Marker
-					identifier={m}
+					identifier={markerKey}
 					coordinate={coords}
 					title={marker.title}
 					description={`${marker.points} points`}
 					onPress={e => this.markerClicked(e)}
+					key={markerKey}
 				/>,
 			);
 		});
@@ -92,18 +101,18 @@ class Map extends React.Component {
 	render() {
 		if (this.state.clicked == null) {
 			return (
-				<MapView
-					style={{
-						flex: 1,
-					}}
-					initialRegion={{
-						latitude: 37.78825,
-						longitude: -122.4324,
-						latitudeDelta: 0.0922,
-						longitudeDelta: 0.0421,
-					}}
-				>
-					{/* <MapView.Marker
+				<React.Fragment>
+
+					<MapView
+						style={styles.basicFlex}
+						initialRegion={{
+							latitude: 37.78825,
+							longitude: -122.4324,
+							latitudeDelta: 0.0922,
+							longitudeDelta: 0.0421,
+						}}
+					>
+						{/* <MapView.Marker
 						identifier="741365"
 						coordinate={{
 							latitude: 37.78925,
@@ -114,16 +123,16 @@ class Map extends React.Component {
 						onPress={e => this.markerClicked(e)}
 					/> */}
 
-					{this.placeMarkers()}
-				</MapView>
+						{this.placeMarkers()}
+					</MapView>
+					<AddMarkerButton style={styles.addMarkerButton} onPress={() => this.props.navigation.navigate('Camera')} />
+				</React.Fragment>
 			);
 		}
 		return (
 			<React.Fragment>
 				<MapView
-					style={{
-						flex: 1,
-					}}
+					style={styles.basicFlex}
 					initialRegion={{
 						latitude: 37.78825,
 						longitude: -122.4324,
