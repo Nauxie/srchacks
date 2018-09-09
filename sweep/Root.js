@@ -19,6 +19,7 @@ const FriendsScreen = createStackNavigator(
 			screen: () => <FriendsView fire={fire} />,
 			navigationOptions: {
 				headerTitle: 'Friends',
+				
 			},
 		},
 	},

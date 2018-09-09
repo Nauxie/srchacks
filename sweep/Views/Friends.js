@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	StyleSheet, Text, View, FlatList, Image, RefreshControl, onRefresh,
+	StyleSheet, Text, View, FlatList, Image, RefreshControl,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -8,7 +8,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#fff',
 		width: '100%',
+
 	},
+	titleText: {
+		fontSize: 40,
+		fontWeight: 'bold',
+		transform: [{ translateX: 70 }],
+	},
+
 	listItem: {
 		width: '100%',
 
@@ -31,6 +38,7 @@ class Friends extends React.Component {
 		this.state = {
 			refreshing: false,
 			fire: this.props.fire,
+			titleText: 'Leaderboard',
 			friends: [
 				{
 					id: 1,
@@ -67,10 +75,9 @@ class Friends extends React.Component {
 					id: 6,
 					name: 'Victoria Fox',
 					image: 'https://randomuser.me/api/portraits/women/96.jpg',
-					score: 7
+					score: 7,
 
-				}
-				,
+				},
 			].sort((a, b) => b.score - a.score),
 		};
 
@@ -107,7 +114,11 @@ class Friends extends React.Component {
 			</View>
 		);
 		return (
+
 			<View style={styles.container}>
+				<Text style={styles.titleText}>
+					{this.state.titleText}
+				</Text>
 				<FlatList
 					refreshControl={(
 						<RefreshControl
@@ -115,10 +126,13 @@ class Friends extends React.Component {
 							onRefresh={this._onRefresh}
 						/>
 					)}
+
 					data={this.state.friends}
 					renderItem={entry}
 					keyExtractor={item => `${item.id}`}
 				/>
+
+
 			</View>
 		);
 	}
