@@ -34,8 +34,7 @@ class Map extends React.Component {
 	async componentDidMount() {
 		const markers = await this.state.fire.getMarkers(true);
 
-		const Geolocation = navigator.geolocation;
-		Geolocation.getCurrentPosition((loc) => {
+		navigator.geolocation.getCurrentPosition((loc) => {
 			markers.curr = {
 				title: 'You!',
 				points: '∞',

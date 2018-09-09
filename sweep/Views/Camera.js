@@ -61,10 +61,10 @@ export default class CameraView extends React.Component {
 		this.setState({ hasCameraPermission: status === 'granted' });
 	}
 
-	pictureResults(data) {
+	async pictureResults(data) {
 		const result = data.type === 'success' ? (data.data.type === 'trash' ? 'TRASH!' : 'NOT TRASH!') : `Something went wrong... ${data.data}`;
 		this.setState({ isLoading: false, results: result });
-		this.state.fire.postMarker(data);
+		await this.state.fire.postMarker(data);
 	}
 
 	async snap() {
